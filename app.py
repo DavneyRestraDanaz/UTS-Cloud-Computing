@@ -21,7 +21,8 @@ except Exception as e:
 def home():
     try:
         cursor = db.cursor()
-        cursor.execute("SELECT nama_produk, harga, url_gambar, deskripsi FROM produk")
+        # Hapus kolom deskripsi dari query karena tidak ada di tabel
+        cursor.execute("SELECT nama_produk, harga, url_gambar FROM produk")
         products = cursor.fetchall()
         
         html = '''
@@ -87,20 +88,11 @@ def home():
                     margin-bottom: 5px;
                 }
                 
-                .product-desc {
-                    color: #666;
-                    font-size: 14px;
-                    margin-bottom: 10px;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 2;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden;
-                }
-                
                 .product-price {
                     color: #e74c3c;
                     font-size: 18px;
                     font-weight: bold;
+                    margin-top: 10px;
                 }
                 
                 footer {
@@ -126,12 +118,11 @@ def home():
             </header>
             
             <div class="product-container">
-                {% for nama, harga, url, deskripsi in products %}
+                {% for nama, harga, url in products %}
                 <div class="product-card">
                     <img src="{{ url }}" alt="{{ nama }}" class="product-img">
                     <div class="product-info">
                         <div class="product-name">{{ nama }}</div>
-                        <div class="product-desc">{{ deskripsi }}</div>
                         <div class="product-price">Rp {{ "{:,.0f}".format(harga) }}</div>
                     </div>
                 </div>
