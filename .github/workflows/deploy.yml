@@ -16,19 +16,32 @@ jobs:
     - name: Run unit tests
       run: |
         echo "Running tests..."
-        # Di sini misalnya nanti kamu mau tambah unittest
+        # Tambahkan unittest di sini nanti kalau sudah ada
 
     - name: Deploy to EC2
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_HOST }}
-        username: ec2-user
+        username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
+          # Masuk ke home directory
           cd /home/ec2-user/
-          rm -rf ecommerce-cc
+
+          # Hapus project lama jika ada
+          rm -rf ecommerce-cc || true
+
+          # Clone ulang project
           git clone https://github.com/DavneyRestraDanaz/ecommerce-cc.git
+
+          # Masuk ke folder project
           cd ecommerce-cc
-          pip3 install -r requirements.txt
-          sudo pkill -f app.py || true
-          nohup python3 app.py &
+
+          # Install dependency
+          pip3 install --user -r requirements.txt
+
+          # Kill app yang jalan sebelumnya (kalau ada)
+          sudo pkill -f "python3 app.py" || true
+
+          # Jalankan aplikasi di background
+          nohup python3 app.py > app.log 2>&1 &
