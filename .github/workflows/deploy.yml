@@ -26,8 +26,8 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           cd /home/ec2-user/
-          rm -rf UTS-Cloud-Computing
+          rm -rf ecommerce-cc
           git clone https://github.com/DavneyRestraDanaz/ecommerce-cc.git
-          cd UTS-Cloud-Computing
+          cd ecommerce-cc
           git pull origin main
           sudo python3 app.py
