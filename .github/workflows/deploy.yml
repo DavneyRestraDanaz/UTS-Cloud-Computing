@@ -27,7 +27,7 @@ jobs:
         script: |
           cd /home/ec2-user/
           rm -rf ecommerce-cc
-          git clone https://github.com/DavneyRestraDanaz/ecommerce-cc.git
+          sudo git clone https://github.com/DavneyRestraDanaz/ecommerce-cc.git
           cd ecommerce-cc
-          git pull origin main
+          sudo git pull origin main
           sudo python3 app.py
