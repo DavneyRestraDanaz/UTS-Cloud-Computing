@@ -570,7 +570,7 @@ def home():
                 <div class="product-grid">
                     {% for id, nama, harga, url in products %}
                     <div class="product-card">
-                        {% if loop.index is divisible by 3 %}
+                        {% if loop.index % 3 == 0 %}
                         <div class="product-badge">New</div>
                         {% endif %}
                         
