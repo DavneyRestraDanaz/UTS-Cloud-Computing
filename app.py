@@ -35,217 +35,673 @@ def home():
         cursor.close()
         db.close()
         
+        # Developer info
+        developer_name = "Davney Restra Danaz"
+        developer_nrp = "152022069"
+        
         html = '''
         <!DOCTYPE html>
         <html lang="id">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>E-Commerce App</title>
+            <title>Shop - Toko Online Modern</title>
+            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
             <style>
+                :root {
+                    --primary: #4f46e5;
+                    --primary-dark: #3730a3;
+                    --secondary: #6366f1;
+                    --accent: #ec4899;
+                    --dark: #111827;
+                    --light: #f9fafb;
+                    --gray: #6b7280;
+                    --success: #10b981;
+                    --danger: #ef4444;
+                    --warning: #f59e0b;
+                    --info: #3b82f6;
+                    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+                    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+                    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                }
+                
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+                
                 body {
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                    padding: 20px;
-                    background-color: #f5f5f5;
+                    font-family: 'Poppins', sans-serif;
+                    background-color: #f3f4f6;
+                    color: var(--dark);
+                    line-height: 1.6;
                 }
                 
-                header {
-                    background-color: #3498db;
-                    color: white;
-                    padding: 20px;
-                    text-align: center;
-                    margin-bottom: 20px;
-                    border-radius: 5px;
+                /* Navbar */
+                .navbar {
+                    background-color: white;
+                    padding: 1rem 0;
+                    box-shadow: var(--shadow);
+                    position: sticky;
+                    top: 0;
+                    z-index: 100;
                 }
                 
-                h1 {
-                    margin: 0;
+                .container {
+                    width: 90%;
+                    max-width: 1200px;
+                    margin: 0 auto;
                 }
                 
-                .nav-buttons {
-                    margin: 20px 0;
-                    text-align: right;
+                .navbar-container {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .brand {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+                
+                .logo {
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    color: var(--primary);
+                    text-decoration: none;
+                }
+                
+                .nav-menu {
+                    display: flex;
+                    gap: 1.5rem;
+                }
+                
+                .nav-link {
+                    color: var(--dark);
+                    text-decoration: none;
+                    font-weight: 500;
+                    transition: color 0.2s;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.3rem;
+                }
+                
+                .nav-link:hover {
+                    color: var(--primary);
+                }
+                
+                .user-actions {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                }
+                
+                .action-btn {
+                    background: none;
+                    border: none;
+                    color: var(--dark);
+                    font-size: 1.25rem;
+                    cursor: pointer;
+                    transition: color 0.2s;
+                }
+                
+                .action-btn:hover {
+                    color: var(--primary);
                 }
                 
                 .add-btn {
-                    background-color: #2ecc71;
+                    background-color: var(--primary);
                     color: white;
                     border: none;
-                    padding: 10px 15px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    font-size: 14px;
+                    padding: 0.5rem 1rem;
+                    border-radius: 0.375rem;
+                    font-weight: 500;
                     text-decoration: none;
-                    display: inline-block;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    transition: background-color 0.2s;
+                    font-size: 0.875rem;
                 }
                 
                 .add-btn:hover {
-                    background-color: #27ae60;
+                    background-color: var(--primary-dark);
                 }
                 
-                .product-container {
+                /* Hero Banner */
+                .hero {
+                    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1607082350899-7e105aa886ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center/cover;
+                    padding: 5rem 0;
+                    text-align: center;
+                    color: white;
+                    margin-bottom: 3rem;
+                }
+                
+                .hero-content {
+                    max-width: 800px;
+                    margin: 0 auto;
+                }
+                
+                .hero h1 {
+                    font-size: 2.5rem;
+                    font-weight: 700;
+                    margin-bottom: 1rem;
+                    line-height: 1.2;
+                }
+                
+                .hero p {
+                    font-size: 1.125rem;
+                    margin-bottom: 2rem;
+                    opacity: 0.9;
+                }
+                
+                .developer-info {
+                    background-color: rgba(255, 255, 255, 0.1);
+                    padding: 0.5rem 1rem;
+                    border-radius: 0.375rem;
+                    display: inline-block;
+                    margin-bottom: 1rem;
+                    font-size: 0.875rem;
+                }
+                
+                /* Section Heading */
+                .section-heading {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 2rem;
+                }
+                
+                .section-title {
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                    color: var(--dark);
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+                
+                /* Product Grid */
+                .product-grid {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                    gap: 20px;
-                    margin-top: 20px;
+                    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                    gap: 2rem;
+                    margin-bottom: 4rem;
                 }
                 
                 .product-card {
                     background-color: white;
-                    border-radius: 5px;
-                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                    border-radius: 0.5rem;
                     overflow: hidden;
-                    transition: transform 0.3s;
+                    box-shadow: var(--shadow);
+                    transition: transform 0.3s, box-shadow 0.3s;
                     position: relative;
                 }
                 
                 .product-card:hover {
                     transform: translateY(-5px);
+                    box-shadow: var(--shadow-lg);
+                }
+                
+                .product-badge {
+                    position: absolute;
+                    top: 1rem;
+                    left: 1rem;
+                    background-color: var(--primary);
+                    color: white;
+                    padding: 0.25rem 0.75rem;
+                    border-radius: 2rem;
+                    font-size: 0.75rem;
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    z-index: 10;
+                }
+                
+                .product-img-wrapper {
+                    position: relative;
+                    height: 200px;
+                    overflow: hidden;
                 }
                 
                 .product-img {
                     width: 100%;
-                    height: 180px;
+                    height: 100%;
                     object-fit: cover;
+                    transition: transform 0.5s;
                 }
                 
-                .product-info {
-                    padding: 15px;
+                .product-card:hover .product-img {
+                    transform: scale(1.05);
+                }
+                
+                .product-overlay {
+                    position: absolute;
+                    inset: 0;
+                    background-color: rgba(0, 0, 0, 0.2);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                }
+                
+                .product-card:hover .product-overlay {
+                    opacity: 1;
+                }
+                
+                .overlay-btn {
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: white;
+                    color: var(--dark);
+                    border-radius: 50%;
+                    border: none;
+                    cursor: pointer;
+                    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+                }
+                
+                .overlay-btn:hover {
+                    background-color: var(--primary);
+                    color: white;
+                    transform: scale(1.1);
+                }
+                
+                .product-content {
+                    padding: 1.25rem;
                 }
                 
                 .product-name {
-                    font-weight: bold;
-                    font-size: 18px;
-                    margin-bottom: 5px;
+                    font-size: 1.125rem;
+                    font-weight: 600;
+                    color: var(--dark);
+                    margin-bottom: 0.5rem;
+                }
+                
+                .product-meta {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-top: 1rem;
                 }
                 
                 .product-price {
-                    color: #e74c3c;
-                    font-size: 18px;
-                    font-weight: bold;
-                    margin-top: 10px;
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    color: var(--primary);
                 }
                 
-                .product-actions {
+                .action-buttons {
                     display: flex;
-                    justify-content: space-between;
-                    margin-top: 15px;
-                    padding-top: 10px;
-                    border-top: 1px solid #eee;
+                    gap: 0.5rem;
                 }
                 
-                .delete-btn {
-                    background-color: #e74c3c;
-                    color: white;
-                    border: none;
-                    padding: 5px 10px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    font-size: 12px;
+                .action-buttons a {
                     text-decoration: none;
                 }
                 
-                .delete-btn:hover {
-                    background-color: #c0392b;
-                }
-                
-                .confirmation-modal {
-                    display: none;
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    z-index: 1000;
-                    justify-content: center;
-                    align-items: center;
-                }
-                
-                .modal-content {
-                    background-color: white;
-                    padding: 20px;
-                    border-radius: 5px;
-                    max-width: 400px;
-                    width: 100%;
-                    text-align: center;
-                }
-                
-                .modal-buttons {
-                    margin-top: 20px;
+                .cart-btn, .delete-btn {
                     display: flex;
+                    align-items: center;
                     justify-content: center;
-                    gap: 10px;
-                }
-                
-                .modal-btn {
-                    padding: 8px 15px;
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 0.375rem;
                     border: none;
-                    border-radius: 4px;
                     cursor: pointer;
+                    transition: background-color 0.2s;
                 }
                 
-                .confirm-btn {
-                    background-color: #e74c3c;
+                .cart-btn {
+                    background-color: var(--success);
                     color: white;
                 }
                 
-                .cancel-btn {
-                    background-color: #95a5a6;
+                .cart-btn:hover {
+                    background-color: #0e9f6e;
+                }
+                
+                .delete-btn {
+                    background-color: var(--danger);
                     color: white;
                 }
                 
-                footer {
-                    margin-top: 40px;
+                .delete-btn:hover {
+                    background-color: #dc2626;
+                }
+                
+                /* Features Section */
+                .features {
+                    background-color: white;
+                    padding: 4rem 0;
+                    margin-bottom: 3rem;
+                }
+                
+                .features-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 2rem;
+                }
+                
+                .feature-card {
                     text-align: center;
-                    color: #666;
-                    font-size: 14px;
-                    padding: 20px;
-                    border-top: 1px solid #ddd;
+                    padding: 2rem;
+                    border-radius: 0.5rem;
+                    background-color: var(--light);
+                    transition: transform 0.3s;
                 }
                 
-                @media (max-width: 600px) {
-                    .product-container {
+                .feature-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .feature-icon {
+                    width: 4rem;
+                    height: 4rem;
+                    background-color: var(--primary);
+                    color: white;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0 auto 1.5rem;
+                    font-size: 1.5rem;
+                }
+                
+                .feature-title {
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    margin-bottom: 0.75rem;
+                }
+                
+                .feature-desc {
+                    color: var(--gray);
+                    font-size: 0.875rem;
+                }
+                
+                /* Footer */
+                footer {
+                    background-color: var(--dark);
+                    color: white;
+                    padding: 3rem 0 1.5rem;
+                }
+                
+                .footer-content {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 2rem;
+                    margin-bottom: 2rem;
+                }
+                
+                .footer-column h3 {
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    margin-bottom: 1.5rem;
+                    color: white;
+                }
+                
+                .footer-links {
+                    list-style: none;
+                }
+                
+                .footer-links li {
+                    margin-bottom: 0.75rem;
+                }
+                
+                .footer-links a {
+                    color: #e5e7eb;
+                    text-decoration: none;
+                    transition: color 0.2s;
+                }
+                
+                .footer-links a:hover {
+                    color: white;
+                }
+                
+                .footer-text {
+                    color: #e5e7eb;
+                    margin-bottom: 1.5rem;
+                    font-size: 0.875rem;
+                }
+                
+                .social-links {
+                    display: flex;
+                    gap: 0.75rem;
+                }
+                
+                .social-link {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    border-radius: 50%;
+                    background-color: rgba(255, 255, 255, 0.1);
+                    color: white;
+                    transition: background-color 0.2s;
+                    text-decoration: none;
+                }
+                
+                .social-link:hover {
+                    background-color: var(--primary);
+                }
+                
+                .footer-bottom {
+                    text-align: center;
+                    padding-top: 1.5rem;
+                    border-top: 1px solid rgba(255, 255, 255, 0.1);
+                    color: #9ca3af;
+                    font-size: 0.875rem;
+                }
+                
+                .developer {
+                    font-weight: 600;
+                    color: white;
+                }
+                
+                /* Responsive */
+                @media (max-width: 768px) {
+                    .nav-menu, .developer-info span {
+                        display: none;
+                    }
+                    
+                    .hero h1 {
+                        font-size: 2rem;
+                    }
+                    
+                    .product-grid {
+                        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                        gap: 1rem;
+                    }
+                    
+                    .features-grid {
                         grid-template-columns: 1fr;
                     }
                 }
             </style>
         </head>
         <body>
-            <header>
-                <h1>Daftar Produk</h1>
-                <p>Aplikasi E-Commerce Cloud Computing</p>
-            </header>
+            <!-- Navbar -->
+            <nav class="navbar">
+                <div class="container navbar-container">
+                    <div class="brand">
+                        <a href="/" class="logo">DRD Shop</a>
+                    </div>
+                    
+                    <ul class="nav-menu">
+                        <li><a href="/" class="nav-link"><i class="fas fa-home"></i> Beranda</a></li>
+                        <li><a href="#products" class="nav-link"><i class="fas fa-shopping-bag"></i> Produk</a></li>
+                        <li><a href="#features" class="nav-link"><i class="fas fa-star"></i> Fitur</a></li>
+                        <li><a href="#footer" class="nav-link"><i class="fas fa-envelope"></i> Kontak</a></li>
+                    </ul>
+                    
+                    <div class="user-actions">
+                        <button class="action-btn"><i class="fas fa-search"></i></button>
+                        <button class="action-btn"><i class="fas fa-shopping-cart"></i></button>
+                        <button class="action-btn"><i class="fas fa-user"></i></button>
+                    </div>
+                </div>
+            </nav>
             
-            <div class="nav-buttons">
-                <a href="/add" class="add-btn">+ Tambah Produk Baru</a>
-            </div>
+            <!-- Hero Banner -->
+            <section class="hero">
+                <div class="hero-content">
+                    <div class="developer-info">
+                        <span>Dibuat oleh: {{ developer_name }} ({{ developer_nrp }})</span>
+                    </div>
+                    <h1>Selamat Datang di DRD Shop</h1>
+                    <p>Temukan produk berkualitas dengan harga terbaik untuk semua kebutuhan Anda.</p>
+                </div>
+            </section>
             
-            <div class="product-container">
-                {% for id, nama, harga, url in products %}
-                <div class="product-card">
-                    <img src="{{ url }}" alt="{{ nama }}" class="product-img">
-                    <div class="product-info">
-                        <div class="product-name">{{ nama }}</div>
-                        <div class="product-price">Rp {{ "{:,.0f}".format(harga) }}</div>
-                        <div class="product-actions">
-                            <a href="/delete/{{ id }}" class="delete-btn" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">Hapus</a>
+            <!-- Product Section -->
+            <section id="products" class="container">
+                <div class="section-heading">
+                    <h2 class="section-title"><i class="fas fa-shopping-bag"></i> Produk Terbaru</h2>
+                    <a href="/add" class="add-btn"><i class="fas fa-plus"></i> Tambah Produk</a>
+                </div>
+                
+                <div class="product-grid">
+                    {% for id, nama, harga, url in products %}
+                    <div class="product-card">
+                        {% if loop.index is divisible by 3 %}
+                        <div class="product-badge">New</div>
+                        {% endif %}
+                        
+                        <div class="product-img-wrapper">
+                            <img src="{{ url }}" alt="{{ nama }}" class="product-img">
+                            <div class="product-overlay">
+                                <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+                                <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+                            </div>
+                        </div>
+                        
+                        <div class="product-content">
+                            <h3 class="product-name">{{ nama }}</h3>
+                            <div class="product-meta">
+                                <div class="product-price">Rp {{ "{:,.0f}".format(harga) }}</div>
+                                <div class="action-buttons">
+                                    <a href="/delete/{{ id }}" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">
+                                        <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                                    </a>
+                                    <button class="cart-btn"><i class="fas fa-shopping-cart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            
+            <!-- Features Section -->
+            <section id="features" class="features">
+                <div class="container">
+                    <h2 class="section-title" style="text-align: center; margin-bottom: 3rem;"><i class="fas fa-star"></i> Kenapa Belanja di DRD Shop?</h2>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <h3 class="feature-title">Pengiriman Cepat</h3>
+                            <p class="feature-desc">Pengiriman cepat ke seluruh Indonesia dengan berbagai pilihan layanan ekspedisi terpercaya.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 class="feature-title">Pembayaran Aman</h3>
+                            <p class="feature-desc">Transaksi aman dengan berbagai metode pembayaran yang terjamin keamanannya.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-undo"></i>
+                            </div>
+                            <h3 class="feature-title">Garansi 30 Hari</h3>
+                            <p class="feature-desc">Garansi pengembalian produk dalam 30 hari jika ada kerusakan atau ketidaksesuaian.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <h3 class="feature-title">Layanan 24/7</h3>
+                            <p class="feature-desc">Tim customer service kami siap membantu Anda selama 24 jam setiap hari.</p>
                         </div>
                     </div>
                 </div>
-                {% endfor %}
-            </div>
+            </section>
             
-            <footer>
-                &copy; {{ current_year }} E-Commerce App | UTS Cloud Computing
+            <!-- Footer -->
+            <footer id="footer">
+                <div class="container">
+                    <div class="footer-content">
+                        <div class="footer-column">
+                            <h3>DRD Shop</h3>
+                            <p class="footer-text">Toko online terpercaya yang menyediakan berbagai produk berkualitas dengan harga terbaik.</p>
+                            <div class="social-links">
+                                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="footer-column">
+                            <h3>Link Cepat</h3>
+                            <ul class="footer-links">
+                                <li><a href="/">Beranda</a></li>
+                                <li><a href="#products">Produk</a></li>
+                                <li><a href="#features">Fitur</a></li>
+                                <li><a href="#">Tentang Kami</a></li>
+                                <li><a href="#">Kontak</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="footer-column">
+                            <h3>Kategori</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">Elektronik</a></li>
+                                <li><a href="#">Fashion</a></li>
+                                <li><a href="#">Kesehatan</a></li>
+                                <li><a href="#">Peralatan Rumah</a></li>
+                                <li><a href="#">Olahraga</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="footer-column">
+                            <h3>Kontak</h3>
+                            <ul class="footer-links">
+                                <li><i class="fas fa-map-marker-alt"></i> Jl. Siliwangi No. 123, Bandung</li>
+                                <li><i class="fas fa-phone"></i> +62 812-3456-7890</li>
+                                <li><i class="fas fa-envelope"></i> info@drdshop.com</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-bottom">
+                        <p>&copy; {{ current_year }} DRD Shop | UTS Cloud Computing | Dibuat oleh <span class="developer">{{ developer_name }} ({{ developer_nrp }})</span></p>
+                    </div>
+                </div>
             </footer>
         </body>
         </html>
         '''
         
         current_year = datetime.now().year
-        return render_template_string(html, products=products, current_year=current_year)
+        return render_template_string(html, 
+                                    products=products, 
+                                    current_year=current_year,
+                                    developer_name=developer_name,
+                                    developer_nrp=developer_nrp)
     
     except Exception as e:
         return f"<h1>Error</h1><p>{str(e)}</p>"
@@ -253,129 +709,273 @@ def home():
 # Route untuk halaman form tambah produk
 @app.route('/add')
 def add_product_form():
+    # Developer info
+    developer_name = "Davney Restra Danaz"
+    developer_nrp = "152022069"
+    
     html = '''
     <!DOCTYPE html>
     <html lang="id">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tambah Produk Baru</title>
+        <title>Tambah Produk Baru - DRD Shop</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <style>
-            body {
-                font-family: Arial, sans-serif;
+            :root {
+                --primary: #4f46e5;
+                --primary-dark: #3730a3;
+                --secondary: #6366f1;
+                --dark: #111827;
+                --light: #f9fafb;
+                --gray: #6b7280;
+                --danger: #ef4444;
+                --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+                --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+            
+            * {
                 margin: 0;
-                padding: 20px;
-                background-color: #f5f5f5;
-            }
-            
-            header {
-                background-color: #3498db;
-                color: white;
-                padding: 20px;
-                text-align: center;
-                margin-bottom: 20px;
-                border-radius: 5px;
-            }
-            
-            h1 {
-                margin: 0;
-            }
-            
-            .container {
-                max-width: 600px;
-                margin: 0 auto;
-                background-color: white;
-                padding: 20px;
-                border-radius: 5px;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            }
-            
-            .form-group {
-                margin-bottom: 15px;
-            }
-            
-            label {
-                display: block;
-                margin-bottom: 5px;
-                font-weight: bold;
-            }
-            
-            input, textarea {
-                width: 100%;
-                padding: 8px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
+                padding: 0;
                 box-sizing: border-box;
             }
             
-            .btn-submit {
-                background-color: #3498db;
-                color: white;
-                border: none;
-                padding: 10px 15px;
-                border-radius: 4px;
-                cursor: pointer;
-                font-size: 16px;
+            body {
+                font-family: 'Poppins', sans-serif;
+                background-color: #f3f4f6;
+                color: var(--dark);
+                line-height: 1.6;
             }
             
-            .btn-submit:hover {
-                background-color: #2980b9;
+            /* Navbar */
+            .navbar {
+                background-color: white;
+                padding: 1rem 0;
+                box-shadow: var(--shadow);
             }
             
-            .btn-cancel {
-                background-color: #e74c3c;
-                color: white;
-                border: none;
-                padding: 10px 15px;
-                border-radius: 4px;
-                cursor: pointer;
-                font-size: 16px;
-                margin-right: 10px;
+            .container {
+                width: 90%;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            .navbar-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--primary);
                 text-decoration: none;
-                display: inline-block;
             }
             
-            .btn-cancel:hover {
-                background-color: #c0392b;
+            .back-link {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: var(--dark);
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.2s;
             }
             
-            .buttons {
-                margin-top: 20px;
+            .back-link:hover {
+                color: var(--primary);
+            }
+            
+            /* Form Container */
+            .form-container {
+                max-width: 800px;
+                margin: 2rem auto;
+                background-color: white;
+                border-radius: 0.5rem;
+                box-shadow: var(--shadow);
+                overflow: hidden;
+            }
+            
+            .form-header {
+                background-color: var(--primary);
+                color: white;
+                padding: 1.5rem;
+                text-align: center;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+            
+            .form-subtitle {
+                font-size: 0.875rem;
+                opacity: 0.9;
+            }
+            
+            .form-content {
+                padding: 2rem;
+            }
+            
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+            
+            .form-label {
+                display: block;
+                font-weight: 500;
+                margin-bottom: 0.5rem;
+                color: var(--dark);
+            }
+            
+            .form-control {
+                width: 100%;
+                padding: 0.75rem 1rem;
+                border: 1px solid #d1d5db;
+                border-radius: 0.375rem;
+                font-family: 'Poppins', sans-serif;
+                font-size: 1rem;
+                transition: border-color 0.2s;
+            }
+            
+            .form-control:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            }
+            
+            .form-hint {
+                font-size: 0.75rem;
+                color: var(--gray);
+                margin-top: 0.5rem;
+            }
+            
+            .form-buttons {
+                display: flex;
+                gap: 1rem;
+                margin-top: 2rem;
+            }
+            
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                padding: 0.75rem 1.5rem;
+                border-radius: 0.375rem;
+                font-weight: 500;
+                text-decoration: none;
+                transition: all 0.2s;
+                cursor: pointer;
+                border: none;
+                font-family: 'Poppins', sans-serif;
+                font-size: 1rem;
+            }
+            
+            .btn-primary {
+                background-color: var(--primary);
+                color: white;
+            }
+            
+            .btn-primary:hover {
+                background-color: var(--primary-dark);
+            }
+            
+            .btn-danger {
+                background-color: var(--danger);
+                color: white;
+            }
+            
+            .btn-danger:hover {
+                background-color: #dc2626;
+            }
+            
+            /* Footer */
+            .footer {
+                text-align: center;
+                padding: 1rem 0;
+                color: var(--gray);
+                font-size: 0.875rem;
+                margin-top: 2rem;
+            }
+            
+            .developer {
+                font-weight: 600;
+                color: var(--dark);
+            }
+            
+            @media (max-width: 768px) {
+                .form-content {
+                    padding: 1.5rem;
+                }
+                
+                .form-buttons {
+                    flex-direction: column;
+                }
             }
         </style>
     </head>
     <body>
-        <header>
-            <h1>Tambah Produk Baru</h1>
-        </header>
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="container navbar-container">
+                <a href="/" class="logo">DRD Shop</a>
+                <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
+            </div>
+        </nav>
         
+        <!-- Form Container -->
         <div class="container">
-            <form action="/add" method="post">
-                <div class="form-group">
-                    <label for="nama_produk">Nama Produk:</label>
-                    <input type="text" id="nama_produk" name="nama_produk" required>
+            <div class="form-container">
+                <div class="form-header">
+                    <h1 class="form-title">Tambah Produk Baru</h1>
+                    <p class="form-subtitle">Lengkapi formulir di bawah ini untuk menambahkan produk baru</p>
                 </div>
                 
-                <div class="form-group">
-                    <label for="harga">Harga (Rp):</label>
-                    <input type="number" id="harga" name="harga" min="1000" required>
+                <div class="form-content">
+                    <form action="/add" method="post">
+                        <div class="form-group">
+                            <label for="nama_produk" class="form-label">Nama Produk</label>
+                            <input type="text" id="nama_produk" name="nama_produk" class="form-control" required>
+                            <p class="form-hint">Masukkan nama produk yang deskriptif (maksimal 100 karakter)</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="harga" class="form-label">Harga (Rp)</label>
+                            <input type="number" id="harga" name="harga" class="form-control" min="1000" required>
+                            <p class="form-hint">Masukkan harga produk dalam Rupiah (minimal Rp 1.000)</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="url_gambar" class="form-label">URL Gambar</label>
+                            <input type="url" id="url_gambar" name="url_gambar" class="form-control" required>
+                            <p class="form-hint">Masukkan URL gambar produk (direkomendasikan rasio 1:1)</p>
+                        </div>
+                        
+                        <div class="form-buttons">
+                            <a href="/" class="btn btn-danger"><i class="fas fa-times"></i> Batal</a>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Produk</button>
+                        </div>
+                    </form>
                 </div>
-                
-                <div class="form-group">
-                    <label for="url_gambar">URL Gambar:</label>
-                    <input type="url" id="url_gambar" name="url_gambar" required>
-                </div>
-                
-                <div class="buttons">
-                    <a href="/" class="btn-cancel">Batal</a>
-                    <button type="submit" class="btn-submit">Simpan</button>
-                </div>
-            </form>
+            </div>
+            
+            <div class="footer">
+                <p>&copy; {{ current_year }} DRD Shop | UTS Cloud Computing | Dibuat oleh <span class="developer">{{ developer_name }} ({{ developer_nrp }})</span></p>
+            </div>
         </div>
     </body>
     </html>
     '''
-    return render_template_string(html)
+    
+    current_year = datetime.now().year
+    return render_template_string(html, 
+                                current_year=current_year,
+                                developer_name=developer_name,
+                                developer_nrp=developer_nrp)
 
 # Route untuk memproses form tambah produk
 @app.route('/add', methods=['POST'])
