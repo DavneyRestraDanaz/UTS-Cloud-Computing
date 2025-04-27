@@ -116,7 +116,7 @@ def home():
         </head>
         <body>
             <header>
-                <h1>Daftar Produk Barang</h1>
+                <h1>Daftar Produk</h1>
                 <p>Aplikasi E-Commerce Cloud Computing</p>
             </header>
             
