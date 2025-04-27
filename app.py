@@ -21,9 +21,12 @@ except Exception as e:
 def home():
     try:
         cursor = db.cursor()
-        # Hapus kolom deskripsi dari query karena tidak ada di tabel
+        # Ambil data produk
         cursor.execute("SELECT nama_produk, harga, url_gambar FROM produk")
         products = cursor.fetchall()
+        
+        # Format harga dari Python
+        products = [(nama, f"Rp {harga:,.0f}", url) for nama, harga, url in products]
         
         html = '''
         <!DOCTYPE html>
@@ -123,7 +126,7 @@ def home():
                     <img src="{{ url }}" alt="{{ nama }}" class="product-img">
                     <div class="product-info">
                         <div class="product-name">{{ nama }}</div>
-                        <div class="product-price">Rp {{ "{:,.0f}".format(harga) }}</div>
+                        <div class="product-price">{{ harga }}</div>
                     </div>
                 </div>
                 {% endfor %}
