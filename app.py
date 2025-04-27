@@ -29,8 +29,8 @@ def home():
             return "<h1>Error koneksi database</h1>"
             
         cursor = db.cursor()
-        # Ambil data produk
-        cursor.execute("SELECT nama_produk, harga, url_gambar FROM produk")
+        # Ambil data produk (termasuk ID untuk delete)
+        cursor.execute("SELECT id, nama_produk, harga, url_gambar FROM produk")
         products = cursor.fetchall()
         cursor.close()
         db.close()
@@ -97,6 +97,7 @@ def home():
                     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
                     overflow: hidden;
                     transition: transform 0.3s;
+                    position: relative;
                 }
                 
                 .product-card:hover {
@@ -126,6 +127,75 @@ def home():
                     margin-top: 10px;
                 }
                 
+                .product-actions {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 15px;
+                    padding-top: 10px;
+                    border-top: 1px solid #eee;
+                }
+                
+                .delete-btn {
+                    background-color: #e74c3c;
+                    color: white;
+                    border: none;
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 12px;
+                    text-decoration: none;
+                }
+                
+                .delete-btn:hover {
+                    background-color: #c0392b;
+                }
+                
+                .confirmation-modal {
+                    display: none;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    z-index: 1000;
+                    justify-content: center;
+                    align-items: center;
+                }
+                
+                .modal-content {
+                    background-color: white;
+                    padding: 20px;
+                    border-radius: 5px;
+                    max-width: 400px;
+                    width: 100%;
+                    text-align: center;
+                }
+                
+                .modal-buttons {
+                    margin-top: 20px;
+                    display: flex;
+                    justify-content: center;
+                    gap: 10px;
+                }
+                
+                .modal-btn {
+                    padding: 8px 15px;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                }
+                
+                .confirm-btn {
+                    background-color: #e74c3c;
+                    color: white;
+                }
+                
+                .cancel-btn {
+                    background-color: #95a5a6;
+                    color: white;
+                }
+                
                 footer {
                     margin-top: 40px;
                     text-align: center;
@@ -153,12 +223,15 @@ def home():
             </div>
             
             <div class="product-container">
-                {% for nama, harga, url in products %}
+                {% for id, nama, harga, url in products %}
                 <div class="product-card">
                     <img src="{{ url }}" alt="{{ nama }}" class="product-img">
                     <div class="product-info">
                         <div class="product-name">{{ nama }}</div>
                         <div class="product-price">Rp {{ "{:,.0f}".format(harga) }}</div>
+                        <div class="product-actions">
+                            <a href="/delete/{{ id }}" class="delete-btn" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">Hapus</a>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -336,6 +409,29 @@ def add_product():
             
         except Exception as e:
             return f"<h1>Error</h1><p>{str(e)}</p>"
+
+# Route untuk menghapus produk
+@app.route('/delete/<int:id>')
+def delete_product(id):
+    try:
+        # Koneksi ke database
+        db = get_db_connection()
+        if not db:
+            return "<h1>Error koneksi database</h1>"
+            
+        # Hapus data dari database
+        cursor = db.cursor()
+        sql = "DELETE FROM produk WHERE id = %s"
+        cursor.execute(sql, (id,))
+        db.commit()
+        cursor.close()
+        db.close()
+        
+        # Redirect ke halaman utama
+        return redirect(url_for('home'))
+        
+    except Exception as e:
+        return f"<h1>Error</h1><p>{str(e)}</p>"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
